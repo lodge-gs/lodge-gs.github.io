@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LODGE: Level-of-Detail Large-Scale Gaussian Splatting with Efficient Rendering</title>
+    <meta name="description" content="LODGE paper. Official web with qualitative comparisons, links to additional materials.">
+    <meta name="keywords" content="lodge,3dgs,nerf,official,code" />
+    <meta name="author" content="Jonas Kulhanek" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h1>
+        <span class="title-main"><span>LODGE</span></span>
+        <span class="title-small">Level-of-Detail Large-Scale Gaussian Splatting with Efficient Rendering</span>
+      </h1>
+      <!--<div class="conference">TBA</div>-->
+    </header>
+    <div class="authors">
+      <div class="author">
+        <span class="author-name">
+          <a href="https://jkulhanek.github.io/">Jonas Kulhanek</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://www.lix.polytechnique.fr/Labo/Marie-Julie.RAKOTOSAONA/">Marie-Julie Rakotosaona</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://campar.in.tum.de/Main/FabianManhardt">Fabian Manhardt</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://ait.ethz.ch/people/ctsalico">Christina Tsalicoglou</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://m-niemeyer.github.io/">Michael Niemeyer</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://tsattler.github.io/">Torsten Sattler</a>
+        </span>
+        <span class="author-affiliation">CTU in Prague</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://pengsongyou.github.io/">Songyou Peng</a>
+        </span>
+        <span class="author-affiliation">Google DeepMind</span>
+      </div>
+      <div class="author">
+        <span class="author-name">
+          <a href="https://federicotombari.github.io/">Federico Tombari</a>
+        </span>
+        <span class="author-affiliation">Google</span>
+      </div>
+    </div>
+    <div class="links">
+      <a class="button" href="#"><i class="ti ti-file-type-pdf"></i> Paper</a>
+      <!--<a class="button" href=""><i class="ti ti-brand-github-filled"></i> Code</a>-->
+      <!--<a class="button" href="https://youtu.be/Ri-er40QUoU"><i class="ti ti-slideshow"></i> Video</a>-->
+    </div>
+    <style>
+      .video.teaser-video::before {
+        padding-bottom: 50%;
+      }
+    </style>
+    <video class="video" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+      <source src="/assets/ours-smallcity.mp4" type="video/mp4">
+    </video>
+    <p class="justify" style="font-size: 1rem;margin: 0 0 0.4rem 0; text-align-last: center">
+    <strong>LODGE</strong> enables efficient rendering of large-scale 3DGS even on mobile devices</strong>
+    </p>
+
+    <section class="abstract">
+      <h2>Abstract</h2>
+      <p>
+<figure style="margin: 0">
+      <img src="overview.svg" alt="LODGE overview" style="width: 100%; margin: 1em auto 0.3em auto; display: block;" />
+      <figcaption>
+      <strong>Left (LOD):</strong> The scene is represented with multiple LODs; `active Gaussians' are selected during training based on camera distance.
+      <strong>Right (cluster-based rendering):</strong> We cluster cameras into chunks, pre-compute `active Gaussians' per chunk, and render the two nearest chunks with `opacity blending'.
+      </figcaption>
+    </figure>
+    </section>
+    <section>
+      <!--<h2>Appearance modeling</h2>
+      <p>
+      In order to enable training on images with varying appearance (images captured at different time of the day), we extend 3DGS with appearance modeling module which achieves the same inference speed as 3DGS.
+      In these visualizations, we interpolate between different training image embeddings to demonstrate how each method handles appearance changes.
+      Note, we report FPS computed on NVIDIA 4090 at FullHD resolution (1920x1080).
+      </p>-->
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/ours-vs-zipnerf-smallcity.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps video-fps-good">FPS: 257</div></span>
+            <span>ZipNeRF<div class="video-fps video-fps-bad">FPS: 0.09</div></span>
+          </span>
+        </div>
+      </figure>
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/ours-vs-octree-gs-campus.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps video-fps-good">FPS: 219</div></span>
+            <span>Octree-GS<div class="video-fps video-fps-bad">FPS: 119</div></span>
+          </span>
+        </div>
+      </figure>
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/ours-vs-h3dgs-nyc.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps video-fps-good">FPS: 280</div></span>
+            <span>H3DGS<div class="video-fps video-fps-bad">FPS: 33</div></span>
+          </span>
+        </div>
+      </figure>
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/ours-vs-3dgs-london.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps video-fps-good">FPS: 253</div></span>
+            <span>3DGS<div class="video-fps video-fps-bad">FPS: 99</div></span>
+          </span>
+        </div>
+      </figure>
+    <section>
+      <h2>LOD representation for faster rendering</h2>
+      <p class="justify">
+      We show the number of visible Gaussians per pixel (lighter means more Gaussians).
+      By adding the LOD representation with chunk-based rendering, we reduce the number of visible Gaussians per pixel,
+      significantly improving the rendering speed with little loss in quality.
+      </p>
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/smallcity-counts-reduction.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps video-fps-good">FPS: 258</div></span>
+            <span>Full representation<div class="video-fps video-fps-bad">FPS: 66</div></span>
+          </span>
+        </div>
+      </figure>
+    </section>
+    <section>
+      <h2>Opacity interpolation to remove cross-chunk transitions</h2>
+      <p class="justify">
+      To ensure temporal consistency when transitioning between chunks,
+      we propose opacity blending. Please focus on the black car.
+      Notice, how opacity blending removes the sharp changes
+      visible in <i>LOD + chunks</i>.
+      </p>
+      <figure>
+        <div class="video-wrapper">
+          <video class="video-compare" style="aspect-ratio: 1920/1080" loop muted autoplay playsinside>
+            <source src="/assets/smallcity-opacity-blending.mp4" type="video/mp4">
+          </video>
+          <span class="video-label video-label-with-fps">
+            <span>Ours<div class="video-fps">FPS: 258</div></span>
+            <span>LOD + chunks<div class="video-fps">FPS: 317</div></span>
+          </span>
+        </div>
+      </figure>
+    </section>
+    <section class="citation">
+      <h2>Citation</h2>
+      <span>Please use the following citation:</span>
+      <pre><code>@article{...}</code></pre>
+    </section>
+    <script src="/scripts.js"></script>
+  </body>
+</html>
